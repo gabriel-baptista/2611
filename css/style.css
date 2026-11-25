@@ -1,0 +1,678 @@
+/* ==========================================================================
+   Tema: "A Noite Estrelada" & "Girassóis" — Vincent van Gogh
+   Abordagem: Mobile-first, leve, alta legibilidade e zero overflow horizontal
+   ========================================================================== */
+
+:root {
+  /* Paleta principal */
+  --bg-deep: #0b132b;
+  --bg-midnight: #1c2541;
+  --bg-card: rgba(20, 30, 58, 0.72);
+  --bg-card-soft: rgba(28, 37, 65, 0.56);
+
+  /* Acentos girassol e dourado */
+  --gold-bright: #ffd166;
+  --gold-warm: #f4a261;
+  --gold-soft: rgba(255, 209, 102, 0.28);
+  --gold-border: rgba(255, 209, 102, 0.36);
+
+  /* Textos */
+  --text-cream: #fdfcdc;
+  --text-muted: rgba(253, 252, 220, 0.78);
+  --text-dark: #0b132b;
+
+  /* Tipografia */
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Espaçamento e raios */
+  --radius-lg: 24px;
+  --radius-md: 18px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-card: 0 20px 50px rgba(4, 8, 22, 0.55), 0 0 32px rgba(255, 209, 102, 0.08);
+  --shadow-video: 0 18px 42px rgba(3, 7, 20, 0.62), 0 0 28px rgba(244, 162, 97, 0.14);
+  --shadow-btn: 0 10px 26px rgba(244, 162, 97, 0.32);
+
+  /* Curvas de transição */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Reset básico seguro */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+  background-color: var(--bg-deep);
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: clip;
+  font-family: var(--font-sans);
+  color: var(--text-cream);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(255, 209, 102, 0.12) 0%, transparent 36%),
+    radial-gradient(circle at 18% 28%, rgba(58, 80, 107, 0.28) 0%, transparent 45%),
+    radial-gradient(circle at 50% 95%, rgba(244, 162, 97, 0.09) 0%, transparent 42%),
+    linear-gradient(165deg, var(--bg-deep) 0%, #111b36 48%, var(--bg-midnight) 100%);
+  background-attachment: fixed;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Fundo Estrelado (A Noite Estrelada)
+   ========================================================================== */
+
+.starry-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.starry-swirls {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+}
+
+.starry-swirls svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.swirl {
+  stroke-linecap: round;
+  stroke-dasharray: 12 10;
+  animation: swirlDrift 26s ease-in-out infinite alternate;
+}
+
+.swirl--gold {
+  stroke: var(--gold-bright);
+  stroke-width: 1.6;
+  opacity: 0.45;
+}
+
+.swirl--cobalt {
+  stroke: #6fffe9;
+  stroke-width: 1.3;
+  opacity: 0.22;
+  animation-delay: -6s;
+}
+
+.swirl--soft {
+  stroke: var(--gold-warm);
+  stroke-width: 1.4;
+  opacity: 0.35;
+  animation-delay: -12s;
+}
+
+.halo-ring {
+  stroke: var(--gold-bright);
+  stroke-width: 1;
+  stroke-dasharray: 5 7;
+  opacity: 0.28;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: slowSpin 48s linear infinite;
+}
+
+.halo-ring--outer {
+  opacity: 0.14;
+  animation-direction: reverse;
+  animation-duration: 68s;
+}
+
+.starfield {
+  position: absolute;
+  inset: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--text-cream);
+  opacity: var(--star-min, 0.25);
+  animation: starTwinkle var(--star-duration, 4s) ease-in-out infinite;
+  animation-delay: var(--star-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.star--gold {
+  background-color: var(--gold-bright);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.85), 0 0 18px rgba(244, 162, 97, 0.4);
+}
+
+.star--halo {
+  background-color: var(--gold-bright);
+  box-shadow:
+    0 0 6px rgba(255, 209, 102, 0.95),
+    0 0 16px rgba(255, 209, 102, 0.45),
+    0 0 28px rgba(244, 162, 97, 0.25);
+}
+
+/* Canvas de partículas (estrelas douradas e pétalas) */
+.celebration-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Etapa 1: Tela de Abertura (Cartão Digital / Envelope)
+   ========================================================================== */
+
+.intro-screen {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(1.5rem, env(safe-area-inset-top))
+    1.125rem
+    max(1.5rem, env(safe-area-inset-bottom));
+  transition: opacity 0.65s var(--ease-smooth), transform 0.65s var(--ease-smooth);
+}
+
+.intro-screen.is-leaving {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  opacity: 0;
+  transform: translateY(-18px) scale(0.97);
+  pointer-events: none;
+}
+
+.intro-card {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  padding: 2.35rem 1.5rem 2.15rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, rgba(28, 37, 65, 0.84) 0%, rgba(11, 19, 43, 0.88) 100%);
+  border: 1px solid var(--gold-border);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+  overflow: hidden;
+  animation: cardFloatIn 0.9s var(--ease-smooth) both;
+}
+
+/* Moldura interna delicada estilo cartão */
+.intro-card::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: calc(var(--radius-lg) - 8px);
+  border: 1px solid rgba(255, 209, 102, 0.14);
+  pointer-events: none;
+}
+
+.intro-card__glow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.sunflower-emblem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+  animation: gentleFloat 5s ease-in-out infinite;
+}
+
+.emblem-star {
+  animation: starTwinkle 3.2s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.emblem-star--2 {
+  animation-delay: 0.9s;
+}
+
+.emblem-star--3 {
+  animation-delay: 1.6s;
+}
+
+.emblem-star--4 {
+  animation-delay: 2.2s;
+}
+
+.intro-card__eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin-bottom: 0.65rem;
+}
+
+.intro-card__title {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.55rem, 6.4vw, 1.95rem);
+  line-height: 1.32;
+  color: var(--text-cream);
+  margin-bottom: 0.85rem;
+  text-wrap: balance;
+}
+
+.intro-card__hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.85rem;
+}
+
+/* Botão principal: "Abrir surpresa" */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  max-width: 260px;
+  min-height: 52px;
+  padding: 0.9rem 1.75rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold-warm) 100%);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition:
+    transform 0.22s var(--ease-smooth),
+    box-shadow 0.22s var(--ease-smooth),
+    filter 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(244, 162, 97, 0.42);
+  filter: brightness(1.04);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-primary:focus-visible,
+.btn-love:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 4px;
+}
+
+.btn-primary__sparkle {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Etapa 2: Conteúdo Principal
+   ========================================================================== */
+
+.main-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(2.25rem, env(safe-area-inset-top))
+    1.125rem
+    max(3rem, env(safe-area-inset-bottom));
+}
+
+.surprise-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  text-align: center;
+}
+
+/* Animação escalonada de entrada do conteúdo */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.main-content.is-visible .reveal-item {
+  animation: fadeSlideUp 0.9s var(--ease-smooth) forwards;
+}
+
+.main-content.is-visible .reveal-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.main-content.is-visible .reveal-item:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.main-content.is-visible .reveal-item:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+.main-content.is-visible .reveal-item:nth-child(4) {
+  animation-delay: 0.54s;
+}
+
+/* Divisor celestial */
+.celestial-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 210px;
+}
+
+.celestial-divider__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 209, 102, 0.55), transparent);
+}
+
+.celestial-divider__star {
+  color: var(--gold-bright);
+  font-size: 0.95rem;
+  text-shadow: 0 0 12px rgba(255, 209, 102, 0.75);
+}
+
+/* Frase poética em destaque */
+.hero-quote {
+  width: 100%;
+  padding: 0 0.25rem;
+}
+
+.hero-quote__text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.42rem, 5.7vw, 1.9rem);
+  line-height: 1.45;
+  color: var(--text-cream);
+  text-shadow: 0 2px 18px rgba(11, 19, 43, 0.65);
+  text-wrap: balance;
+}
+
+/* Container do Player de Vídeo */
+.video-section {
+  width: 100%;
+}
+
+.video-frame {
+  position: relative;
+  width: 100%;
+  padding: 8px;
+  border-radius: calc(var(--radius-md) + 4px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 209, 102, 0.22) 0%,
+    rgba(28, 37, 65, 0.75) 45%,
+    rgba(244, 162, 97, 0.22) 100%
+  );
+  border: 1px solid var(--gold-border);
+  box-shadow: var(--shadow-video);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.video-player {
+  display: block;
+  width: 100%;
+  max-height: 70dvh;
+  border-radius: calc(var(--radius-md) - 2px);
+  background-color: var(--bg-deep);
+  object-fit: contain;
+}
+
+/* Nota final e botão "Te amo ❤️" */
+.closing-note {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.15rem;
+  margin-top: 0.25rem;
+}
+
+.closing-note__text {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+.btn-love {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 46px;
+  padding: 0.7rem 1.65rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 209, 102, 0.45);
+  background: rgba(28, 37, 65, 0.65);
+  color: var(--text-cream);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 22px rgba(5, 10, 26, 0.38);
+  transition:
+    transform 0.22s var(--ease-smooth),
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-love:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-bright);
+  background: rgba(255, 209, 102, 0.14);
+  box-shadow: 0 10px 26px rgba(255, 209, 102, 0.18);
+}
+
+.btn-love:active {
+  transform: scale(0.96);
+}
+
+.btn-love.is-active {
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.22), rgba(244, 162, 97, 0.24));
+  border-color: var(--gold-bright);
+  color: var(--gold-bright);
+  box-shadow: 0 0 24px rgba(255, 209, 102, 0.22);
+}
+
+/* Mensagem carinhosa oculta */
+.hidden-message {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.hidden-message__card {
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, rgba(28, 37, 65, 0.82), rgba(11, 19, 43, 0.86));
+  border: 1px solid rgba(255, 209, 102, 0.32);
+  box-shadow: 0 14px 34px rgba(4, 8, 22, 0.45);
+  animation: messageReveal 0.65s var(--ease-smooth) both;
+}
+
+.hidden-message__icon {
+  display: inline-block;
+  font-size: 1.25rem;
+  margin-bottom: 0.45rem;
+}
+
+.hidden-message__text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.02rem, 4.2vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--text-cream);
+}
+
+/* ==========================================================================
+   Keyframes leves (GPU-friendly)
+   ========================================================================== */
+
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: var(--star-min, 0.22);
+    transform: scale(0.88);
+  }
+  50% {
+    opacity: var(--star-max, 0.95);
+    transform: scale(1.18);
+  }
+}
+
+@keyframes swirlDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(10px, -6px, 0);
+  }
+}
+
+@keyframes slowSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gentleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes cardFloatIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   Ajustes para telas maiores (tablets e desktops)
+   ========================================================================== */
+
+@media (min-width: 640px) {
+  .intro-card {
+    max-width: 440px;
+    padding: 3rem 2.25rem 2.75rem;
+  }
+
+  .surprise-container {
+    max-width: 560px;
+    gap: 2.1rem;
+  }
+
+  .video-frame {
+    padding: 10px;
+  }
+}
+
+/* Respeita preferência do sistema por menos animações */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b132b" />
+  <meta name="description"
+    content="Uma pequena surpresa feita com carinho, inspirada nos céus estrelados e nos girassóis de Van Gogh." />
+  <title>Para você 🌻</title>
+
+  <!-- Favicon de girassol em SVG -->
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+
+  <!-- Google Fonts: Playfair Display (serifada poética) + Plus Jakarta Sans (limpa e moderna) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Folha de estilos principal -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <!-- Camada decorativa de fundo: céu estrelado + pinceladas inspiradas em Van Gogh -->
+  <div class="starry-backdrop" aria-hidden="true">
+    <div class="starry-swirls">
+      <svg viewBox="0 0 430 932" preserveAspectRatio="xMidYMid slice" fill="none">
+        <path class="swirl swirl--gold" d="M-30 165 C 55 110, 145 205, 235 145 C 310 95, 375 155, 460 115" />
+        <path class="swirl swirl--cobalt" d="M-40 205 C 70 145, 165 245, 255 180 C 335 125, 395 190, 470 150" />
+        <path class="swirl swirl--soft" d="M-20 695 C 95 635, 185 735, 290 675 C 360 635, 410 680, 465 650" />
+        <circle class="halo-ring" cx="355" cy="115" r="38" />
+        <circle class="halo-ring halo-ring--outer" cx="355" cy="115" r="58" />
+        <circle class="halo-ring" cx="72" cy="275" r="24" />
+      </svg>
+    </div>
+    <!-- Estrelas geradas dinamicamente via JavaScript -->
+    <div id="starfield" class="starfield"></div>
+  </div>
+
+  <!-- Canvas para partículas de estrelas douradas e pétalas de girassol -->
+  <canvas id="celebration-canvas" class="celebration-canvas" aria-hidden="true"></canvas>
+
+  <!-- =====================================================================
+       ETAPA 1: TELA DE ABERTURA (CARTÃO DIGITAL / ENVELOPE)
+       ===================================================================== -->
+  <section id="intro-screen" class="intro-screen" aria-label="Cartão de abertura">
+    <div class="intro-card">
+      <div class="intro-card__glow" aria-hidden="true"></div>
+
+      <!-- Ilustração delicada de girassol e estrelas -->
+      <div class="sunflower-emblem" aria-hidden="true">
+        <svg viewBox="0 0 120 120" width="92" height="92" fill="none">
+          <!-- Pequenas estrelas ao redor do girassol -->
+          <path class="emblem-star emblem-star--1" d="M20 26 L22 31 L27 33 L22 35 L20 40 L18 35 L13 33 L18 31 Z"
+            fill="#ffd166" />
+          <path class="emblem-star emblem-star--2"
+            d="M98 22 L99.5 26 L103.5 27.5 L99.5 29 L98 33 L96.5 29 L92.5 27.5 L96.5 26 Z" fill="#fdfcdc" />
+          <circle class="emblem-star emblem-star--3" cx="96" cy="92" r="2.2" fill="#ffd166" />
+          <circle class="emblem-star emblem-star--4" cx="25" cy="94" r="1.8" fill="#f4a261" />
+
+          <!-- Halo suave -->
+          <circle cx="60" cy="62" r="38" fill="#ffd166" fill-opacity="0.08" />
+
+          <!-- Pétalas traseiras -->
+          <g fill="#f4a261" transform="translate(60 62)">
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(15)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(45)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(75)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(105)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(135)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(165)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(195)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(225)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(255)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(285)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(315)" />
+            <ellipse cx="0" cy="-24" rx="5.2" ry="12.5" transform="rotate(345)" />
+          </g>
+
+          <!-- Pétalas frontais -->
+          <g fill="#ffd166" transform="translate(60 62)">
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(0)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(30)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(60)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(90)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(120)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(150)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(180)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(210)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(240)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(270)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(300)" />
+            <ellipse cx="0" cy="-22.5" rx="5.4" ry="13" transform="rotate(330)" />
+          </g>
+
+          <!-- Miolo texturizado -->
+          <circle cx="60" cy="62" r="14.5" fill="#4a2810" stroke="#f4a261" stroke-width="1.5" />
+          <circle cx="56" cy="58" r="1.4" fill="#ffd166" opacity="0.65" />
+          <circle cx="64" cy="59" r="1.2" fill="#ffd166" opacity="0.55" />
+          <circle cx="60" cy="66" r="1.4" fill="#ffd166" opacity="0.6" />
+          <circle cx="55" cy="65" r="1.1" fill="#f4a261" opacity="0.55" />
+          <circle cx="65" cy="65.5" r="1.1" fill="#f4a261" opacity="0.55" />
+        </svg>
+      </div>
+
+      <span class="intro-card__eyebrow">Meu amor,</span>
+      <h1 class="intro-card__title">Uma pequena surpresa para você...</h1>
+      <p class="intro-card__hint">Aumente um pouquinho o volume antes de abrir</p>
+
+      <button id="open-surprise-btn" class="btn-primary" type="button">
+        <span>Abrir surpresa</span>
+        <span class="btn-primary__sparkle" aria-hidden="true">✦</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       ETAPA 2: CONTEÚDO PRINCIPAL (REVELADO APÓS CLICAR EM "ABRIR SURPRESA")
+       ===================================================================== -->
+  <main id="main-content" class="main-content" hidden>
+    <article class="surprise-container">
+      <!-- Ornamento estrelado no topo -->
+      <div class="celestial-divider reveal-item" aria-hidden="true">
+        <span class="celestial-divider__line"></span>
+        <span class="celestial-divider__star">✦</span>
+        <span class="celestial-divider__line"></span>
+      </div>
+
+      <!-- Frase em destaque -->
+      <header class="hero-quote reveal-item">
+        <blockquote class="hero-quote__text">
+          “Seu sorriso ilumina a minha vida, assim como os céus estrelados de Van Gogh.”
+        </blockquote>
+      </header>
+
+      <!-- Player de vídeo estilizado -->
+      <section class="video-section reveal-item" aria-label="Vídeo surpresa">
+        <div class="video-frame">
+          <!--
+            SUBSTITUIÇÃO DO VÍDEO:
+            Coloque o arquivo de vídeo real na pasta ./assets/ com o nome "shrek-girassol.mp4"
+            (ou altere o caminho no atributo src abaixo).
+            O atributo poster opcional exibe uma capa temática enquanto o vídeo carrega.
+          -->
+          <video id="surprise-video" class="video-player" src="./assets/shrek-girassol.mp4"
+            poster="./assets/poster-girassol.svg" controls playsinline webkit-playsinline preload="metadata">
+            Seu navegador não suporta a reprodução de vídeo HTML5.
+          </video>
+        </div>
+      </section>
+
+      <!-- Nota final e botão interativo -->
+      <footer class="closing-note reveal-item">
+        <p class="closing-note__text">Escolhi essa flor pensando em você.</p>
+
+        <button id="love-btn" class="btn-love" type="button" aria-expanded="false" aria-controls="hidden-message">
+          <span>Te amo ❤️</span>
+        </button>
+
+        <!-- Mensagem carinhosa oculta, revelada ao clicar em "Te amo ❤️" -->
+        <div id="hidden-message" class="hidden-message" hidden aria-live="polite">
+          <div class="hidden-message__card">
+            <span class="hidden-message__icon" aria-hidden="true">🌻✨</span>
+            <p class="hidden-message__text">
+              Cada momento ao seu lado transforma dias comuns em obras de arte.
+              Obrigado por iluminar o meu mundo com a sua luz — hoje e sempre.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Script principal (Vanilla JS) -->
+  <script src="./js/script.js"></script>
+</body>
+
+</html>

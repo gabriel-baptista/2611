@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b132b" />
+      <stop offset="55%" stop-color="#16213e" />
+      <stop offset="100%" stop-color="#1c2541" />
+    </linearGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffd166" stop-opacity="0.45" />
+      <stop offset="55%" stop-color="#f4a261" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#0b132b" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="sunCenter" cx="45%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#6b3e1e" />
+      <stop offset="100%" stop-color="#351b09" />
+    </radialGradient>
+  </defs>
+
+  <!-- Céu noturno -->
+  <rect width="800" height="450" fill="url(#sky)" />
+
+  <!-- Espirais suaves inspiradas em A Noite Estrelada -->
+  <g fill="none" stroke-linecap="round" opacity="0.22">
+    <path d="M -20 140 C 120 80, 210 190, 340 130 C 440 85, 520 155, 620 115 C 700 82, 760 110, 830 90" stroke="#ffd166" stroke-width="2.5" stroke-dasharray="14 10" />
+    <path d="M -20 170 C 130 110, 225 220, 355 160 C 455 115, 535 185, 645 145 C 715 115, 770 145, 830 120" stroke="#5bc0be" stroke-width="2" stroke-dasharray="18 12" />
+    <path d="M 60 350 C 190 290, 300 370, 440 320 C 560 278, 660 340, 820 290" stroke="#f4a261" stroke-width="2" stroke-dasharray="12 10" />
+  </g>
+
+  <!-- Halos de estrelas -->
+  <circle cx="150" cy="110" r="65" fill="url(#starGlow)" />
+  <circle cx="655" cy="115" r="78" fill="url(#starGlow)" />
+  <circle cx="400" cy="215" r="140" fill="url(#starGlow)" />
+
+  <!-- Estrelas dispersas -->
+  <g fill="#fdfcdc">
+    <circle cx="150" cy="110" r="3.5" fill="#ffd166" />
+    <circle cx="655" cy="115" r="4" fill="#ffd166" />
+    <circle cx="240" cy="70" r="2" opacity="0.7" />
+    <circle cx="530" cy="80" r="2.2" opacity="0.8" />
+    <circle cx="115" cy="270" r="1.8" opacity="0.6" />
+    <circle cx="690" cy="285" r="2.2" opacity="0.7" />
+    <circle cx="305" cy="360" r="1.8" opacity="0.55" />
+    <circle cx="515" cy="350" r="2" opacity="0.65" />
+  </g>
+
+  <!-- Girassol central delicado -->
+  <g transform="translate(400, 195)">
+    <g fill="#f4a261" opacity="0.9">
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(15)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(45)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(75)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(105)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(135)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(165)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(195)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(225)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(255)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(285)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(315)" />
+      <ellipse cx="0" cy="-42" rx="8.5" ry="20" transform="rotate(345)" />
+    </g>
+    <g fill="#ffd166">
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(0)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(30)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(60)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(90)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(120)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(150)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(180)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(210)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(240)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(270)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(300)" />
+      <ellipse cx="0" cy="-40" rx="8.8" ry="21" transform="rotate(330)" />
+    </g>
+    <circle cx="0" cy="0" r="24" fill="url(#sunCenter)" stroke="#ffd166" stroke-width="2" />
+    <!-- Botão play sutil no miolo -->
+    <polygon points="-5,-9 11,0 -5,9" fill="#fdfcdc" opacity="0.92" />
+  </g>
+
+  <!-- Texto delicado -->
+  <text x="400" y="330" text-anchor="middle" fill="#fdfcdc" font-family="Georgia, serif" font-style="italic" font-size="22" opacity="0.88">
+    Toque para assistir
+  </text>
+</svg>
